@@ -1,0 +1,14 @@
+.button{
+    background-color: #EA7052;
+    width: 80%;
+    height: 20%;
+    border-radius: 5px;
+    border: 0px solid #EA7052;
+    color: white;
+}
+
+@media (max-width: 500px) {
+    .button{
+        height: 25%;
+    }
+  }
