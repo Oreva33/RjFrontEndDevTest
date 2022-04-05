@@ -1,6 +1,6 @@
 .button{
     background-color: #EA7052;
-    width: 80%;
+    width: 81%;
     height: 20%;
     border-radius: 5px;
     border: 0px solid #EA7052;
@@ -9,6 +9,6 @@
 
 @media (max-width: 500px) {
     .button{
-        height: 25%;
+        height: 20%;
     }
   }

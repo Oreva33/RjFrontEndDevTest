@@ -1,11 +1,21 @@
-import React, { Fragment } from "react";
+import React, {useContext}from "react";
 import classes from "./Main1.module.css";
 import logo from "../image/Vector.png";
 import apple from "../image/apple.png";
 import playstore from "../image/playstore.png";
 import sharath from "../image/sharath-kumar-hari-Mb2LErousEY-unsplash 1.png";
+import RoutContext from "../../store/Rout-context";
 
 const Main1 = () => {
+  const ctx = useContext(RoutContext);
+const regHandler =()=>{
+ctx.onRegister()
+}
+
+const loginHandler =()=>{
+  ctx.onSignin()
+  }
+
   return (
       <div className={classes.main1}>
         <div className={classes["main1-col1"]}>
@@ -34,8 +44,8 @@ const Main1 = () => {
         </div>
         <div className={classes["main1-col2"]}>
           <div className={classes["col2-item1"]}>
-            <button>Register</button>
-            <button className={classes["but-2"]}>Login</button>
+            <button onClick={regHandler}>Register</button>
+            <button onClick={loginHandler} className={classes["but-2"]}>Login</button>
           </div>
           <div className={classes["col2-item2"]}>
             <img src={sharath} alt={sharath} />
