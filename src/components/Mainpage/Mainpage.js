@@ -1,11 +1,17 @@
-import React from "react";
+import React,{useContext} from "react";
 import classes from "./Mainpage.module.css";
 import logo from "../image/Vector.png";
 import arrow from "../image/arrow-up.png";
 import frame22 from "../image/Frame 22.png";
 import frame25 from "../image/Frame 25.png";
+import RoutContext from "../../store/Rout-context";
 
 const Mainpage = () => {
+    const ctx = useContext(RoutContext);
+    const mainpageHandler =()=>{
+        ctx.onHome()
+        }
+
   return (
     <div className={classes.wrapper}>
       <div className={classes.header}>
@@ -15,7 +21,7 @@ const Mainpage = () => {
         </div>
         <div className={classes["header-col2"]}>
           <h1>Hi $email</h1>
-          <button>Logout</button>
+          <button onClick={mainpageHandler}>Logout</button>
         </div>
       </div>
       <div className={classes.main1}>

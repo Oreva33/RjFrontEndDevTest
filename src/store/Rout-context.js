@@ -7,6 +7,7 @@ const RoutContext = React.createContext({
   onSignin: () => {},
   onRegister: () => {},
   onMain: () => {},
+  onHome: () => {},
 });
 
 export default RoutContext;

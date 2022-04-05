@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import RoutContext from "./Rout-context";
 
 const RoutProvider = (props) => {
@@ -22,6 +21,10 @@ const RoutProvider = (props) => {
     setAd(false);
   };
 
+  const homeHandler = () => {
+    setRoute("Home");
+  };
+
   return (
     <RoutContext.Provider
       value={{
@@ -30,7 +33,8 @@ const RoutProvider = (props) => {
         onAd: adHandler,
         onSignin: signinHandler,
         onRegister: registerHandler,
-        onMain: mainHandler
+        onMain: mainHandler,
+        onHome:homeHandler
       }}
     >
       {props.children}
