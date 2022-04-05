@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useContext } from "react";
+import React, { Fragment, useContext, useReducer } from "react";
 import classes from "./Login.module.css";
 import line3 from "../image/Line 3.png";
 import line4 from "../image/Line 4.png";
@@ -7,53 +7,83 @@ import icon from "../image/Vector.png";
 import Button from "../UI/Button/Button";
 import RoutContext from "../../store/Rout-context";
 
+const emailReducer = (state, action) => {
+  if (action.type === "USER_INPUT") {
+    return { value: action.val, isValid: action.val.includes("@") };
+  }
+  if (action.type === "INPUT_BLUR") {
+    return { value: state.value, isValid: state.value.includes("@") };
+  }
+  return { value: "", isValid: false };
+};
+
+const passwordReducer = (state, action) => {
+  if (action.type === "USER_INPUT") {
+    return { value: action.val, isValid: action.val.trim().length > 0 };
+  }
+  if (action.type === "INPUT_BLUR") {
+    return { value: state.value, isValid: state.value.trim().length > 0 };
+  }
+  return { value: "", isValid: false };
+};
+
 const Login = () => {
-  const [enteredEmail, setEnteredEmail] = useState("");
-  const [enteredEmailTouched, setEnteredEmailTouched] = useState(false);
-  const [enteredEmailIsValid, setEnteredEmailIsValid] = useState(false);
-  const [enteredPassword, setEnteredPassword] = useState("");
-  const [passwordTouched, setPasswordTouched] = useState(false);
-  const [passwordIsValid, setPasswordIsValid] = useState(false);
+  const [emailState, dispatchEmail] = useReducer(emailReducer, {
+    value: "",
+    isValid: null,
+  });
+  const [passwordState, dispatchPassword] = useReducer(passwordReducer, {
+    value: "",
+    isValid: null,
+  });
   const ctx = useContext(RoutContext);
 
   const emailChangeHanbler = (event) => {
-    setEnteredEmail(event.target.value);
+    dispatchEmail({ type: "USER_INPUT", val: event.target.value });
   };
 
+  const validateEmailHandler = () => {
+    dispatchEmail({ type: "INPUT_BLUR" });
+  };
   const passwordChangeHandler = (event) => {
-    setEnteredPassword(event.target.value);
+    dispatchPassword({ type: "USER_INPUT", val: event.target.value });
+  };
+
+  const validatePasswordHandler = () => {
+    dispatchPassword({ type: "INPUT_BLUR" });
   };
 
   const formHandler = (event) => {
     event.preventDefault();
-    setEnteredEmailTouched(true);
-    setPasswordTouched(true);
-    if (!enteredEmail.includes("@")) {
-      setEnteredEmailIsValid(false);
-    } else {
-      setEnteredEmailIsValid(true);
-    }
-
-    if (enteredPassword.length <= 0) {
-      setPasswordIsValid(false);
-    } else {
-      setPasswordIsValid(true);
-    }
-    console.log(passwordIsValid, enteredEmailIsValid);
-    if (!passwordIsValid && !enteredEmailIsValid) {
+    if (!emailState.isValid && !passwordState.isValid) {
       return;
     }
 
     const formvalue = {
-      email: enteredEmail,
-      password: enteredPassword,
+      email: emailState.value,
+      password: passwordState.value,
     };
-    console.log(formvalue);
+
+    const id = (email) => {
+      const userId = email;
+      let firstIndex = 0;
+      let lastIndex = 0;
+      if (userId.includes(".") && userId.indexOf(".") < userId.indexOf("@")) {
+        lastIndex = lastIndex + userId.indexOf(".");
+        return userId.slice(firstIndex, lastIndex);
+      }
+      for (let x = 0; x < userId.length; x++) {
+        if (userId[x] === "@") {
+          lastIndex = lastIndex + x;
+        }
+      }
+      //console.log(typeof lastIndex)
+      return userId.slice(firstIndex, lastIndex);
+    };
+
+    ctx.onId(id(formvalue.email))
     ctx.onMain();
   };
-
-  const emailInputIsInvalid = !enteredEmailIsValid && enteredEmailTouched;
-  const passwordIsInvalid = !passwordIsValid && passwordTouched;
 
   return (
     <Fragment>
@@ -70,7 +100,7 @@ const Login = () => {
           <div className={classes["inner-form"]}>
             <div
               className={
-                emailInputIsInvalid
+                emailState.isValid === false
                   ? `${classes["email-input"]} ${classes["invalid"]}`
                   : classes["email-input"]
               }
@@ -79,14 +109,16 @@ const Login = () => {
                 onChange={emailChangeHanbler}
                 type="email"
                 placeholder="Email"
+                onBlur={validateEmailHandler}
+                value={emailState.value}
               />
             </div>
-            {emailInputIsInvalid && (
+            {emailState.isValid === false && (
               <p className={classes["inval"]}>Enter valid Email</p>
             )}
             <div
               className={
-                passwordIsInvalid
+                passwordState.isValid === false
                   ? `${classes["password-input"]} ${classes["invalid"]}`
                   : classes["password-input"]
               }
@@ -95,9 +127,11 @@ const Login = () => {
                 onChange={passwordChangeHandler}
                 type="password"
                 placeholder="Password"
+                onBlur={validatePasswordHandler}
+                value={passwordState.value}
               />
             </div>
-            {passwordIsInvalid && (
+            {passwordState.isValid === false && (
               <p className={classes["inval"]}>Enter valid Password</p>
             )}
             <Button>Login</Button>

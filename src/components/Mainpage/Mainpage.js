@@ -6,6 +6,7 @@ import frame22 from "../image/Frame 22.png";
 import frame25 from "../image/Frame 25.png";
 import RoutContext from "../../store/Rout-context";
 
+
 const Mainpage = () => {
     const ctx = useContext(RoutContext);
     const mainpageHandler =()=>{
@@ -20,7 +21,7 @@ const Mainpage = () => {
           <h1>Rodufy</h1>
         </div>
         <div className={classes["header-col2"]}>
-          <h1>Hi $email</h1>
+          <h1>Hi {ctx.username}</h1>
           <button onClick={mainpageHandler}>Logout</button>
         </div>
       </div>
