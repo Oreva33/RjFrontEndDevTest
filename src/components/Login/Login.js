@@ -40,7 +40,7 @@ const Login = () => {
       setPasswordIsValid(true);
     }
     console.log(passwordIsValid, enteredEmailIsValid);
-    if (!passwordIsValid && enteredEmailIsValid) {
+    if (!passwordIsValid && !enteredEmailIsValid) {
       return;
     }
 

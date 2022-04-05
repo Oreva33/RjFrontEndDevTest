@@ -39,7 +39,7 @@ const Register = () => {
     } else {
       setPasswordIsValid(true);
     }
-    if (!passwordIsValid && enteredEmailIsValid) {
+    if (!passwordIsValid && !enteredEmailIsValid) {
       return;
     }
 
