@@ -57,9 +57,13 @@ const Register = () => {
 
   const formHandler = (event) => {
     event.preventDefault();
-    if (!emailState.isValid && !passwordState.isValid) {
-      return;
-    }
+    if (!emailState.isValid) {
+      return
+     }
+ 
+     if(!passwordState.isValid){
+       return;
+     }
 
     const formvalue = {
       email: emailState.value,

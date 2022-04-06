@@ -55,7 +55,12 @@ const Login = () => {
 
   const formHandler = (event) => {
     event.preventDefault();
-    if (!emailState.isValid && !passwordState.isValid) {
+    console.log(!emailState.isValid ,!passwordState.isValid)
+    if (!emailState.isValid) {
+     return
+    }
+
+    if(!passwordState.isValid){
       return;
     }
 
